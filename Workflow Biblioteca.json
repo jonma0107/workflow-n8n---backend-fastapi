@@ -1,0 +1,375 @@
+{
+  "name": "Workflow Biblioteca - Google Sheets a API",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        0
+      ],
+      "id": "a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d",
+      "name": "Iniciar proceso"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "TU_ID_DE_GOOGLE_SHEET",
+          "mode": "list",
+          "cachedResultName": "Biblioteca - Libros",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/TU_ID_DE_GOOGLE_SHEET/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Libros",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/TU_ID_DE_GOOGLE_SHEET/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        80,
+        0
+      ],
+      "id": "b2c3d4e5-f6a7-4b5c-8d9e-0f1a2b3c4d5e",
+      "name": "Leer libros desde Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TU_CREDENTIAL_ID",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ String($json.titulo || $json.Titulo || '') }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            },
+            {
+              "id": "condition2",
+              "leftValue": "={{ String($json.autor || $json.Autor || '') }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        0
+      ],
+      "id": "c3d4e5f6-a7b8-4c5d-8e9f-0a1b2c3d4e5f",
+      "name": "Filtrar registros válidos"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign1",
+              "name": "titulo",
+              "value": "={{ String($json.titulo || $json.Titulo || '') }}",
+              "type": "string"
+            },
+            {
+              "id": "assign2",
+              "name": "autor",
+              "value": "={{ String($json.autor || $json.Autor || '') }}",
+              "type": "string"
+            },
+            {
+              "id": "assign3",
+              "name": "isbn",
+              "value": "={{ String($json.isbn || $json.ISBN || '') }}",
+              "type": "string"
+            },
+            {
+              "id": "assign4",
+              "name": "editorial",
+              "value": "={{ String($json.editorial || $json.Editorial || '') }}",
+              "type": "string"
+            },
+            {
+              "id": "assign5",
+              "name": "año_publicacion",
+              "value": "={{ Number($json.año_publicacion || $json['Año Publicacion'] || $json.año_publicacion || 0) || null }}",
+              "type": "number"
+            },
+            {
+              "id": "assign6",
+              "name": "genero",
+              "value": "={{ String($json.genero || $json.Genero || '') }}",
+              "type": "string"
+            },
+            {
+              "id": "assign7",
+              "name": "descripcion",
+              "value": "={{ String($json.descripcion || $json.Descripcion || '') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        520,
+        0
+      ],
+      "id": "d4e5f6a7-b8c9-4d5e-8f0a-1b2c3d4e5f6a",
+      "name": "Normalizar datos"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://backend:8000/api/libros",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "titulo",
+              "value": "={{ $json.titulo }}"
+            },
+            {
+              "name": "autor",
+              "value": "={{ $json.autor }}"
+            },
+            {
+              "name": "isbn",
+              "value": "={{ $json.isbn }}"
+            },
+            {
+              "name": "editorial",
+              "value": "={{ $json.editorial }}"
+            },
+            {
+              "name": "año_publicacion",
+              "value": "={{ $json.año_publicacion }}"
+            },
+            {
+              "name": "genero",
+              "value": "={{ $json.genero }}"
+            },
+            {
+              "name": "descripcion",
+              "value": "={{ $json.descripcion }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        0
+      ],
+      "id": "e5f6a7b8-c9d0-4e5f-8a1b-2c3d4e5f6a7b",
+      "name": "Enviar a API (POST)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "result1",
+              "name": "libro_creado",
+              "value": "={{ $json.titulo }}",
+              "type": "string"
+            },
+            {
+              "id": "result2",
+              "name": "status",
+              "value": "=exitoso",
+              "type": "string"
+            },
+            {
+              "id": "result3",
+              "name": "id_generado",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        0
+      ],
+      "id": "f6a7b8c9-d0e1-4f5a-8b2c-3d4e5f6a7b8c",
+      "name": "Registrar resultado"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "libro_creado"
+            },
+            {
+              "fieldToAggregate": "id_generado"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        0
+      ],
+      "id": "a7b8c9d0-e1f2-4a5b-8c3d-4e5f6a7b8c9d",
+      "name": "Agrupar resultados"
+    },
+    {
+      "parameters": {
+        "content": "📖 WORKFLOW BIBLIOTECA\n\nEste workflow lee libros desde Google Sheets y los envía a la API para guardarlos en la base de datos PostgreSQL (Neon).\n\nPasos:\n1. Leer datos de Google Sheets\n2. Filtrar registros válidos\n3. Normalizar campos\n4. Enviar POST a API\n5. Registrar resultados",
+        "height": 280,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -200,
+        -160
+      ],
+      "typeVersion": 1,
+      "id": "note1",
+      "name": "Nota informativa"
+    },
+    {
+      "parameters": {
+        "content": "⚠️ CONFIGURACIÓN REQUERIDA:\n\n1. Configurar credenciales de Google Sheets\n2. Actualizar el ID del documento\n3. Verificar que la API esté corriendo en http://backend:8000\n4. La API debe estar accesible desde n8n",
+        "height": 200,
+        "width": 280,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -200,
+        140
+      ],
+      "typeVersion": 1,
+      "id": "note2",
+      "name": "Nota de configuración"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Iniciar proceso": {
+      "main": [
+        [
+          {
+            "node": "Leer libros desde Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer libros desde Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filtrar registros válidos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar registros válidos": {
+      "main": [
+        [
+          {
+            "node": "Normalizar datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar datos": {
+      "main": [
+        [
+          {
+            "node": "Enviar a API (POST)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar a API (POST)": {
+      "main": [
+        [
+          {
+            "node": "Registrar resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar resultado": {
+      "main": [
+        [
+          {
+            "node": "Agrupar resultados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "new-workflow-biblioteca",
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": "biblioteca-n8n-workflow"
+  },
+  "id": "BibliotecaN8N001",
+  "tags": ["biblioteca", "google-sheets", "api", "postgresql"]
+}
+
