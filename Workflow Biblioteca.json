@@ -1,47 +1,47 @@
 {
-  "name": "Workflow Biblioteca - Google Sheets a API",
+  "name": "My workflow POST",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -140,
-        0
+        640,
+        -176
       ],
-      "id": "a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d",
+      "id": "c9e8b3f7-a4d1-4136-86ee-60f43799d4bd",
       "name": "Iniciar proceso"
     },
     {
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "TU_ID_DE_GOOGLE_SHEET",
+          "value": "1Ls52WeGW_dBeKJt-08k5UZAeLunjzylL3kdggs4xjf0",
           "mode": "list",
-          "cachedResultName": "Biblioteca - Libros",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/TU_ID_DE_GOOGLE_SHEET/edit"
+          "cachedResultName": "libros_ejemplo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ls52WeGW_dBeKJt-08k5UZAeLunjzylL3kdggs4xjf0/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": "gid=0",
+          "value": 135852461,
           "mode": "list",
-          "cachedResultName": "Libros",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/TU_ID_DE_GOOGLE_SHEET/edit#gid=0"
+          "cachedResultName": "libros_ejemplo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ls52WeGW_dBeKJt-08k5UZAeLunjzylL3kdggs4xjf0/edit#gid=135852461"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        80,
-        0
+        912,
+        -240
       ],
-      "id": "b2c3d4e5-f6a7-4b5c-8d9e-0f1a2b3c4d5e",
+      "id": "de9ab985-8102-486a-836c-3fbdec00e88a",
       "name": "Leer libros desde Google Sheets",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "TU_CREDENTIAL_ID",
-          "name": "Google Sheets Account"
+          "id": "WTsYzNGmh9ygGiBC",
+          "name": "Google Sheets LOCAL - jduplantier44@gmail.com"
         }
       }
     },
@@ -51,7 +51,7 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "loose",
+            "typeValidation": "strict",
             "version": 2
           },
           "conditions": [
@@ -81,10 +81,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        300,
-        0
+        1136,
+        -240
       ],
-      "id": "c3d4e5f6-a7b8-4c5d-8e9f-0a1b2c3d4e5f",
+      "id": "0cb31c46-80a7-4d91-b46c-87a0d60c9346",
       "name": "Filtrar registros válidos"
     },
     {
@@ -93,7 +93,7 @@
           "assignments": [
             {
               "id": "assign1",
-              "name": "titulo",
+              "name": "=titulo",
               "value": "={{ String($json.titulo || $json.Titulo || '') }}",
               "type": "string"
             },
@@ -140,10 +140,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        520,
-        0
+        1360,
+        -240
       ],
-      "id": "d4e5f6a7-b8c9-4d5e-8f0a-1b2c3d4e5f6a",
+      "id": "25c3e20d-be26-4012-bca0-9dc57daf1993",
       "name": "Normalizar datos"
     },
     {
@@ -194,10 +194,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        740,
-        0
+        1584,
+        -240
       ],
-      "id": "e5f6a7b8-c9d0-4e5f-8a1b-2c3d4e5f6a7b",
+      "id": "e8b0d6be-d4a9-42ff-8d8b-645f20d1f20d",
       "name": "Enviar a API (POST)"
     },
     {
@@ -229,10 +229,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        960,
-        0
+        1808,
+        -240
       ],
-      "id": "f6a7b8c9-d0e1-4f5a-8b2c-3d4e5f6a7b8c",
+      "id": "53946c77-1937-42c7-8a56-c9cd7f021de8",
       "name": "Registrar resultado"
     },
     {
@@ -252,10 +252,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1180,
-        0
+        2032,
+        -240
       ],
-      "id": "a7b8c9d0-e1f2-4a5b-8c3d-4e5f6a7b8c9d",
+      "id": "75ab5563-9c01-40b1-b812-3f920b5864e0",
       "name": "Agrupar resultados"
     },
     {
@@ -267,41 +267,92 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -200,
-        -160
+        928,
+        -48
       ],
       "typeVersion": 1,
-      "id": "note1",
+      "id": "33d374fb-c742-40cc-b793-fccda19bc666",
       "name": "Nota informativa"
     },
     {
       "parameters": {
-        "content": "⚠️ CONFIGURACIÓN REQUERIDA:\n\n1. Configurar credenciales de Google Sheets\n2. Actualizar el ID del documento\n3. Verificar que la API esté corriendo en http://backend:8000\n4. La API debe estar accesible desde n8n",
+        "content": "⚠️ CONFIGURACIÓN REQUERIDA:\n\n1. Configurar credenciales de Google Sheets\n2. Actualizar el ID del documento\n3. Verificar que la API esté corriendo en http://localhost:8000\n4. La API debe estar accesible desde n8n",
         "height": 200,
         "width": 280,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -200,
-        140
+        1376,
+        -16
       ],
       "typeVersion": 1,
-      "id": "note2",
+      "id": "85813a9b-63e0-46be-9995-a859424fae5d",
       "name": "Nota de configuración"
+    },
+    {
+      "parameters": {
+        "sendTo": "jduplantier44@gmail.com",
+        "subject": "Se creó en la base de datos",
+        "message": "=<h1> Libros agregados a la biblioteca </h1>\n\n<div>\n{{ $json.libro_creado }}\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2256,
+        -240
+      ],
+      "id": "dfcee777-64bd-4344-b572-6a2e4c42f454",
+      "name": "Send a message",
+      "webhookId": "04d98eea-6b8b-4feb-811b-dc1d9ef596c2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "zSy6X6C0i54VRHes",
+          "name": "Gmail LOCAL - jduplantier44@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "¿QUÉ HACE?                                                          NO registra en base de datos (eso ya lo hizo el paso anterior) Solo SIMPLIFICA los datos de la respuesta de la API.\n\n\n\n\n\n\n\n\n\n\n\nEste nodo EXTRAE solo los campos importantes para el reporte.",
+        "height": 288,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1728,
+        -336
+      ],
+      "typeVersion": 1,
+      "id": "db6d3b5e-8cad-48bd-8b07-ae55306e76ec",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        640,
+        -304
+      ],
+      "id": "b1132cb2-01c2-404c-ac4c-7cc3ab98dbe4",
+      "name": "Schedule Trigger"
     }
   ],
   "pinData": {},
   "connections": {
     "Iniciar proceso": {
       "main": [
-        [
-          {
-            "node": "Leer libros desde Google Sheets",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Leer libros desde Google Sheets": {
@@ -358,18 +409,39 @@
           }
         ]
       ]
+    },
+    "Agrupar resultados": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Leer libros desde Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "new-workflow-biblioteca",
+  "versionId": "322332a6-26c6-4a05-9b67-052a428a6532",
   "meta": {
-    "templateCredsSetupCompleted": false,
-    "instanceId": "biblioteca-n8n-workflow"
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5b26cd460c990672a673217017457d6ec5896094b39d9eb8e0814a172ab18ace"
   },
-  "id": "BibliotecaN8N001",
-  "tags": ["biblioteca", "google-sheets", "api", "postgresql"]
+  "id": "enXvadoEXRwiVhUZ",
+  "tags": []
 }
-
